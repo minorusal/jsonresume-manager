@@ -27,6 +27,33 @@
           self="work"
           :model="resume.content"
           :schema="schemas.work"
+          :subforms="subforms.work"
+        />
+      </Tab>
+      <Tab title="Education" icon="fa fa-graduation-cap">
+        <DynamicForm
+          title="Education"
+          self="education"
+          :model="resume.content"
+          :schema="schemas.education"
+          :subforms="subforms.education"
+        />
+      </Tab>
+      <Tab title="Skills" icon="fa fa-lightbulb">
+        <DynamicForm
+          title="Skill"
+          self="skills"
+          :model="resume.content"
+          :schema="schemas.skills"
+          :subforms="subforms.skills"
+        />
+      </Tab>
+      <Tab title="Awards" icon="fa fa-trophy">
+        <DynamicForm
+          title="Awards"
+          self="awards"
+          :model="resume.content"
+          :schema="schemas.awards"
         />
       </Tab>
     </Tabs>
@@ -41,9 +68,13 @@ import basics from './schema/basics/basics';
 import location from './schema/basics/location';
 import profiles from './schema/basics/profiles';
 import work from './schema/work';
+import education from './schema/education';
+import awards from './schema/awards';
+import skills from './schema/skills';
 import { component as VueFormGenerator } from 'vue-form-generator';
 import 'vue-form-generator/dist/vfg.css';
 import DynamicForm from './dynamic/DynamicForm';
+import ListForm from './dynamic/LIstForm';
 export default {
   name: 'ResumeForm',
 
@@ -70,6 +101,42 @@ export default {
         location,
         profiles,
         work,
+        education,
+        skills,
+        awards,
+      },
+
+      subforms: {
+        work: [
+          {
+            component: ListForm,
+            props: {
+              title: 'Highlights',
+              self: 'highlights',
+              placeholder: 'Started the company',
+            },
+          },
+        ],
+        education: [
+          {
+            component: ListForm,
+            props: {
+              title: 'Courses',
+              self: 'courses',
+              placeholder: 'SQL',
+            },
+          },
+        ],
+        skills: [
+          {
+            component: ListForm,
+            props: {
+              title: 'Keywords',
+              self: 'keywords',
+              placeholder: 'Javascript',
+            },
+          },
+        ],
       },
 
       options: {

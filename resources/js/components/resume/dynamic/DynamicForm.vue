@@ -24,6 +24,12 @@
                 validateAsync: true,
               }"
             />
+            <div v-for="(subform, j) in subforms" :key="j">
+              <component
+                :is="subform.component"
+                v-bind="{ model: target[prop][j], ...subform.props }"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -36,47 +42,22 @@
 
 <script>
 import { component as VueFormGenerator } from 'vue-form-generator';
+import mixin from './mixin';
 export default {
   name: 'DynamicForm',
+  mixins: [mixin],
   components: {
     VueFormGenerator,
   },
   props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    model: {
-      type: Object,
-      required: true,
-    },
-    self: {
-      type: String,
-      required: true,
-    },
     schema: {
       type: Object,
       required: true,
     },
-  },
-
-  data() {
-    return {
-      target: this.model,
-      prop: this.self,
-    };
-  },
-  methods: {
-    add() {
-      const { target, prop } = this.$data;
-      if (!target[prop]) {
-        this.$set(target, prop, []);
-      }
-      target[prop].push({});
-    },
-    remove(i) {
-      const { target, prop } = this.$data;
-      target[prop].splice(i, 1);
+    subforms: {
+      type: Array,
+      required: false,
+      default: () => [],
     },
   },
 };
